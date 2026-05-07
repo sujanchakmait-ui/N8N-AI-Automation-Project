@@ -1,0 +1,393 @@
+{
+  "name": "data store query part",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -32
+      ],
+      "id": "5a814c25-d816-44f1-8962-b0a0ace1aa8b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAllPeople",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.n8nTrainingCustomerDatastore",
+      "typeVersion": 1,
+      "position": [
+        224,
+        -32
+      ],
+      "id": "0227eaca-3ff7-4b8a-b697-7e29819e057a",
+      "name": "Customer Datastore (n8n training)"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appLfbwHrZOI2HCR8",
+          "mode": "list",
+          "cachedResultName": "Customer Data",
+          "cachedResultUrl": "https://airtable.com/appLfbwHrZOI2HCR8"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblJZQonqoSQM7cSV",
+          "mode": "list",
+          "cachedResultName": "user table 1",
+          "cachedResultUrl": "https://airtable.com/appLfbwHrZOI2HCR8/tblJZQonqoSQM7cSV"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        -32
+      ],
+      "id": "9464361a-3650-4b3a-8afc-cefe8a488288",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "hI8qvaKnu6DBaBK2",
+          "name": "Airtable Personal Access Token account 764"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a5a525b7-ba24-48fe-8745-8b7b7506419f",
+              "name": "Your Name",
+              "value": "={{ $json.fields['First Name'] }}{{ $json.fields['Last Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "886d99c4-78fa-43ab-aeb8-13477c03ed4d",
+              "name": "Country",
+              "value": "={{ $json.fields.Country }}",
+              "type": "string"
+            },
+            {
+              "id": "5a8c8da0-b1f8-467f-95d2-64575308f608",
+              "name": "Email",
+              "value": "={{ $json.fields.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "78bdaa8e-d639-4e27-9438-a7b5c4df02c5",
+              "name": "Phone Number",
+              "value": "={{ $json.fields['Phone 2'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        -32
+      ],
+      "id": "2dcec755-497b-47d0-b7ef-500f220a3bb6",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "db5c08b6-3a12-4c76-889d-e9da14af702f",
+              "leftValue": "India",
+              "rightValue": "={{ $json.Country }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        -32
+      ],
+      "id": "976ca76d-75a0-41a1-a96a-3900f2c084eb",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "42beb1fe-85c8-4202-80f0-e01deb213b8d",
+              "leftValue": "Bangladesh",
+              "rightValue": "={{ $json.Country }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1120,
+        64
+      ],
+      "id": "9ebea2ed-993a-48b4-9a56-86bcb02bd201",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c284863d-ac90-4e52-a500-a3e44666ceb0",
+              "name": "Bangladesh",
+              "value": "={{ $json.Country }}",
+              "type": "string"
+            },
+            {
+              "id": "5b6d2cdc-76ae-4257-bf48-545bfd9c5b56",
+              "name": "Your Name",
+              "value": "={{ $json['Your Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a091185-3a6b-4c62-868f-6518bc456c43",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "7d13f905-eb79-4e0e-ac18-b9cceee146f1",
+              "name": "Phone Number",
+              "value": "={{ $json['Phone Number'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1344,
+        160
+      ],
+      "id": "68e4973c-6b2f-414c-b36a-8a8c5c580fdf",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c284863d-ac90-4e52-a500-a3e44666ceb0",
+              "name": "India",
+              "value": "={{ $json.Country }}",
+              "type": "string"
+            },
+            {
+              "id": "5b6d2cdc-76ae-4257-bf48-545bfd9c5b56",
+              "name": "Your Name",
+              "value": "={{ $json['Your Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a091185-3a6b-4c62-868f-6518bc456c43",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "7d13f905-eb79-4e0e-ac18-b9cceee146f1",
+              "name": "Phone Number",
+              "value": "={{ $json['Phone Number'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        -128
+      ],
+      "id": "2bb2eecb-6642-4047-89dd-352bcbf250f3",
+      "name": "india",
+      "notesInFlow": true,
+      "notes": "India"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c284863d-ac90-4e52-a500-a3e44666ceb0",
+              "name": "Bangladesh",
+              "value": "={{ $json.Country }}",
+              "type": "string"
+            },
+            {
+              "id": "5b6d2cdc-76ae-4257-bf48-545bfd9c5b56",
+              "name": "Your Name",
+              "value": "={{ $json['Your Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a091185-3a6b-4c62-868f-6518bc456c43",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "7d13f905-eb79-4e0e-ac18-b9cceee146f1",
+              "name": "Phone Number",
+              "value": "={{ $json['Phone Number'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1344,
+        -32
+      ],
+      "id": "00e512e2-91b7-4361-ab6c-da9c6c615222",
+      "name": "Bangladeshi",
+      "notesInFlow": true,
+      "notes": "Bangladeshi"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Customer Datastore (n8n training)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Datastore (n8n training)": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "india",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Bangladeshi",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3e4a2576-e0e2-48b1-ada8-44dc8098ea23",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5f00bba974abf03cb5183d4d65f8a9645a781b04770df6a7d08284fca87d50b3"
+  },
+  "id": "rpts639AAInZqkmo",
+  "tags": []
+}
